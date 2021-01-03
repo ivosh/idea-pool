@@ -50,7 +50,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
   };
 
   const isValid = (tokens: AuthTokens): boolean => {
-    return new Date(tokens.expires) > new Date();
+    return new Date(tokens.expires * 1e3) > new Date();
   };
 
   const tryGetValidToken = async (): Promise<AuthTokens | null> => {
@@ -104,6 +104,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
     if (tokens === null) {
       return null;
     }
+
     const parsedTokens = JSON.parse(tokens);
     return {
       accessToken: parsedTokens.accessToken,

@@ -60,6 +60,7 @@ export default function Login(): JSX.Element {
               placeholder="Email"
               type="email"
               value={values.email}
+              width="100%"
             />
             <TextField
               name="password"
@@ -68,6 +69,7 @@ export default function Login(): JSX.Element {
               placeholder="Password"
               type="password"
               value={values.password}
+              width="100%"
             />
             <LoginOrSignup>
               <Button disabled={isSubmitting} name="login" type="submit">

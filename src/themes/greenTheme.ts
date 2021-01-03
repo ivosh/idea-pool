@@ -11,8 +11,9 @@ declare module 'styled-components' {
       fontSize: {
         primary: string;
         input: string;
-        heading: string;
         button: string;
+        heading: string;
+        title: string;
       };
     };
     background: {
@@ -32,8 +33,9 @@ export const greenTheme: DefaultTheme = {
     fontSize: {
       primary: '16px',
       input: '20px',
-      heading: '40px',
       button: '14px',
+      heading: '40px',
+      title: '28px',
     },
   },
   background: {

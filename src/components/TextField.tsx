@@ -9,6 +9,7 @@ interface TextFieldProps {
   placeholder: string;
   type?: string;
   value?: string;
+  width: string;
 }
 
 const TextFieldStyled = styled.input`
@@ -21,7 +22,7 @@ const TextFieldStyled = styled.input`
   line-height: 22px;
   padding-bottom: 12px;
   padding-top: 12px;
-  width: 100%;
+  width: ${({ width }) => width};
 
   &:focus {
     outline: 0;
@@ -34,7 +35,7 @@ const TextFieldStyled = styled.input`
 `;
 
 export default function TextField(props: TextFieldProps): JSX.Element {
-  const { name, onBlur, onChange, placeholder, type, value } = props;
+  const { name, onBlur, onChange, placeholder, type, value, width } = props;
   return (
     <TextFieldStyled
       name={name}
@@ -43,6 +44,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       placeholder={placeholder}
       type={type || 'text'}
       value={value}
+      width={width}
     />
   );
 }

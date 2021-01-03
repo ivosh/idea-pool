@@ -62,6 +62,7 @@ export default function Signup(): JSX.Element {
               onBlur={handleBlur}
               placeholder="Name"
               value={values.name}
+              width="100%"
             />
             <TextField
               name="email"
@@ -70,6 +71,7 @@ export default function Signup(): JSX.Element {
               placeholder="Email"
               type="email"
               value={values.email}
+              width="100%"
             />
             <TextField
               name="password"
@@ -78,6 +80,7 @@ export default function Signup(): JSX.Element {
               placeholder="Password"
               type="password"
               value={values.password}
+              width="100%"
             />
             <SignupOrLogin>
               <Button disabled={isSubmitting} name="signup" type="submit">
