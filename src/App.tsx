@@ -1,26 +1,30 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import styled, { createGlobalStyle } from "styled-components";
 
-function App(): JSX.Element {
+import Menu from "./Menu";
+import Signup from "./Signup";
+
+const AppRoot = createGlobalStyle`
+  * {
+    font-family: sans-serif !important;
+  }
+`;
+
+const AppStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 1024px;
+  width: 1280px;
+`;
+
+export default function App(): JSX.Element {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppRoot />
+      <AppStyled>
+        <Menu />
+        <Signup />
+      </AppStyled>
+    </>
   );
 }
-
-export default App;

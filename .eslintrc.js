@@ -34,5 +34,6 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
+    "react/require-default-props": "off",
   },
 };
