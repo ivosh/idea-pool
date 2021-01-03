@@ -6,7 +6,7 @@ import { Idea } from '../apis/ideas';
 import TextField from './TextField';
 import Select from './Select';
 
-interface IdeaFormValues {
+export interface IdeaFormValues {
   content: string;
   impact: number;
   ease: number;
@@ -16,19 +16,24 @@ interface IdeaFormValues {
 interface IdeaFormProps {
   idea?: Idea;
   onCreate?: (idea: IdeaFormValues) => Promise<void>;
+  onReset: () => void;
   onUpdate?: (id: string, idea: IdeaFormValues) => Promise<void>;
 }
 
 const Form = styled.form`
   display: flex;
-  & > div,
-  & > input {
-    margin-right: 40px;
+  & > *:nth-child(2),
+  & > *:nth-child(3),
+  & > *:nth-child(4),
+  & > *:nth-child(6) {
+    margin-left: 35px;
   }
 `;
 
 const Average = styled.div`
   margin-top: 10px;
+  text-align: right;
+  width: 65px;
 `;
 
 const Button = styled.button`
@@ -38,10 +43,14 @@ const Button = styled.button`
   outline: 0;
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+`;
+
 const Icon = styled.img``;
 
 export default function IdeaForm(props: IdeaFormProps): JSX.Element {
-  const { idea, onCreate, onUpdate } = props;
+  const { idea, onCreate, onReset, onUpdate } = props;
 
   const { content = '', impact = 10, ease = 10, confidence = 10 } = idea || {};
   const initialValues: IdeaFormValues = { content, impact, ease, confidence };
@@ -52,7 +61,7 @@ export default function IdeaForm(props: IdeaFormProps): JSX.Element {
 
   return (
     <Formik enableReinitialize initialValues={initialValues} onSubmit={handleFormSubmit}>
-      {({ values, handleChange, handleBlur, handleReset, handleSubmit, isSubmitting }) => (
+      {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
           <TextField
             name="content"
@@ -67,14 +76,14 @@ export default function IdeaForm(props: IdeaFormProps): JSX.Element {
           <Select name="ease" value={values.ease} />
           <Select name="confidence" value={values.confidence} />
           <Average>{Math.round((values.impact + values.ease + values.confidence) / 3)}</Average>
-          <Button disabled={isSubmitting} name="save" type="submit">
-            <Icon src="/btn_ok.png" />
-          </Button>
-          {!idea && (
-            <Button name="reset" onClick={handleReset} type="reset">
+          <ButtonGroup>
+            <Button disabled={isSubmitting} name="save" type="submit">
+              <Icon src="/btn_ok.png" />
+            </Button>
+            <Button name="reset" onClick={onReset} type="reset">
               <Icon src="/btn_delete.png" />
             </Button>
-          )}
+          </ButtonGroup>
         </Form>
       )}
     </Formik>

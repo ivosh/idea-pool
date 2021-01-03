@@ -7,6 +7,7 @@ declare module 'styled-components' {
         primary: string;
         secondary: string;
         link: string;
+        bullet: string;
       };
       fontSize: {
         primary: string;
@@ -27,8 +28,9 @@ export const greenTheme: DefaultTheme = {
   text: {
     color: {
       primary: '#000000',
-      secondary: '#FFFFFF',
-      link: '#00A843',
+      secondary: '#ffffff',
+      link: '#00a843',
+      bullet: '#aaafb3',
     },
     fontSize: {
       primary: '16px',
@@ -39,7 +41,7 @@ export const greenTheme: DefaultTheme = {
     },
   },
   background: {
-    primaryColor: '#FFFFFF',
-    secondaryColor: '#00A843',
+    primaryColor: '#ffffff',
+    secondaryColor: '#00a843',
   },
 };
