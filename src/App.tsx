@@ -1,8 +1,10 @@
-import React from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import Menu from "./Menu";
-import Signup from "./Signup";
+import { AuthProvider } from './context/auth-context';
+import Menu from './Menu';
+import Routes from './Routes';
 
 const AppRoot = createGlobalStyle`
   * {
@@ -19,12 +21,14 @@ const AppStyled = styled.div`
 
 export default function App(): JSX.Element {
   return (
-    <>
+    <AuthProvider>
       <AppRoot />
       <AppStyled>
         <Menu />
-        <Signup />
+        <Router>
+          <Routes />
+        </Router>
       </AppStyled>
-    </>
+    </AuthProvider>
   );
 }

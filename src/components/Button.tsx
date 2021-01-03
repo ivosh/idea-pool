@@ -1,12 +1,12 @@
-import React, { ReactNode } from "react";
-import styled from "styled-components";
+import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
 interface ButtonProps {
   disabled?: boolean;
   children: ReactNode;
   name: string;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const ButtonStyled = styled.button`
@@ -22,12 +22,7 @@ const ButtonStyled = styled.button`
 export default function Button(props: ButtonProps): JSX.Element {
   const { disabled, children, name, onClick, type } = props;
   return (
-    <ButtonStyled
-      disabled={disabled}
-      name={name}
-      onClick={onClick}
-      type={type || "button"}
-    >
+    <ButtonStyled disabled={disabled} name={name} onClick={onClick} type={type || 'button'}>
       {children}
     </ButtonStyled>
   );

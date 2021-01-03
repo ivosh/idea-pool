@@ -1,11 +1,14 @@
-import React from "react";
-import { Formik } from "formik";
-import styled from "styled-components";
+import React from 'react';
+import { Formik } from 'formik';
+import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Button from "./Button";
-import TextField from "./TextField";
+import { createUser, CreateUserProps } from './apis/users';
+import Button from './components/Button';
+import TextField from './components/TextField';
+import { useAuth } from './context/auth-context';
 
-const SignupStyled = styled.div`
+const SignUpStyled = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 280px;
@@ -25,7 +28,7 @@ const Form = styled.form`
   }
 `;
 
-const SignupOrLogin = styled.div`
+const SignUpOrLogin = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -33,14 +36,22 @@ const SignupOrLogin = styled.div`
   width: 100%;
 `;
 
-export default function Signup(): JSX.Element {
+export default function SignUp(): JSX.Element {
+  const { isAuthenticated, login } = useAuth();
+
+  const onSubmit = async (values: CreateUserProps): Promise<void> => {
+    await createUser(values);
+    await login(values);
+  };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    <SignupStyled>
+    <SignUpStyled>
       <Heading>Sign Up</Heading>
-      <Formik
-        initialValues={{ name: "", email: "", password: "" }}
-        onSubmit={() => {}}
-      >
+      <Formik initialValues={{ name: '', email: '', password: '' }} onSubmit={onSubmit}>
         {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
             <TextField
@@ -66,15 +77,15 @@ export default function Signup(): JSX.Element {
               type="password"
               value={values.password}
             />
-            <SignupOrLogin>
-              <Button disabled={!isSubmitting} name="signup" type="submit">
+            <SignUpOrLogin>
+              <Button disabled={isSubmitting} name="signup" type="submit">
                 Sign Up
               </Button>
               <div>Already have an account? Log in</div>
-            </SignupOrLogin>
+            </SignUpOrLogin>
           </Form>
         )}
       </Formik>
-    </SignupStyled>
+    </SignUpStyled>
   );
 }

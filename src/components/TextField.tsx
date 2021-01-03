@@ -1,11 +1,11 @@
-import React from "react";
-import { FormikHandlers } from "formik";
-import styled from "styled-components";
+import React from 'react';
+import { FormikHandlers } from 'formik';
+import styled from 'styled-components';
 
 interface TextFieldProps {
   name: string;
-  onBlur?: FormikHandlers["handleBlur"];
-  onChange?: FormikHandlers["handleChange"];
+  onBlur?: FormikHandlers['handleBlur'];
+  onChange?: FormikHandlers['handleChange'];
   placeholder: string;
   type?: string;
   value?: string;
@@ -40,7 +40,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       onBlur={onBlur}
       onChange={onChange}
       placeholder={placeholder}
-      type={type || "text"}
+      type={type || 'text'}
       value={value}
     />
   );
