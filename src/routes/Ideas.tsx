@@ -17,6 +17,25 @@ const ListItem = styled.li`
   }
 `;
 
+const Headers = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+
+  & > div:nth-child(1) {
+    margin-left: 430px;
+  }
+`;
+
+const Header = styled.div`
+  font-size: ${({ theme }) => theme.text.fontSize.button};
+  text-align: center;
+  width: 100px;
+`;
+
+const BoldHeader = styled(Header)`
+  font-weight: bolder;
+`;
+
 const GotIdeasGroup = styled.div`
   display: flex;
   flex-direction: column;
@@ -98,6 +117,12 @@ export default function Ideas(props: IdeasProps): JSX.Element {
 
   return (
     <IdeasStyled>
+      <Headers>
+        <Header>Impact</Header>
+        <Header>Ease</Header>
+        <Header>Confidence</Header>
+        <BoldHeader>Avg.</BoldHeader>
+      </Headers>
       {showAddForm && (
         <ListItem key="new-idea">
           <IdeaForm onCreate={handleCreateIdea} onReset={handleCancelCreate} />
