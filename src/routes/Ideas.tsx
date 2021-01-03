@@ -115,14 +115,18 @@ export default function Ideas(props: IdeasProps): JSX.Element {
     getIdeasFromAPI();
   }, [tryGetValidToken]);
 
+  const showHeader = showAddForm || ideas.length > 0;
+
   return (
     <IdeasStyled>
-      <Headers>
-        <Header>Impact</Header>
-        <Header>Ease</Header>
-        <Header>Confidence</Header>
-        <BoldHeader>Avg.</BoldHeader>
-      </Headers>
+      {showHeader && (
+        <Headers>
+          <Header>Impact</Header>
+          <Header>Ease</Header>
+          <Header>Confidence</Header>
+          <BoldHeader>Avg.</BoldHeader>
+        </Headers>
+      )}
       {showAddForm && (
         <ListItem key="new-idea">
           <IdeaForm onCreate={handleCreateIdea} onReset={handleCancelCreate} />
@@ -145,7 +149,7 @@ export default function Ideas(props: IdeasProps): JSX.Element {
           )}
         </ListItem>
       ))}
-      {!showAddForm && ideas.length === 0 && (
+      {!showHeader && (
         <GotIdeasGroup>
           <BulbIcon src="/bulb.png" alt="bulb" />
           <GotIdeasText>Got Ideas?</GotIdeasText>
