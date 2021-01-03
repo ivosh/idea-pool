@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import { AuthProvider } from './context/auth-context';
-import Menu from './Menu';
-import Routes from './Routes';
+import { AuthProvider } from './context/auth-provider';
+import Menu from './routes/Menu';
+import Routes from './routes/Routes';
 
 const AppRoot = createGlobalStyle`
   * {

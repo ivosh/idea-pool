@@ -3,28 +3,16 @@ import { DefaultTheme } from 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     text: {
-      primary: {
-        color: string;
-        fontSize: string;
+      color: {
+        primary: string;
+        secondary: string;
+        link: string;
       };
-      button: {
-        color: string;
-        fontSize: string;
-      };
-      heading: {
-        color: string;
-        fontSize: string;
-      };
-      textField: {
-        primary: {
-          color: string;
-          fontSize: string;
-        };
-        placeholder: {
-          color: string;
-          fontSize: string;
-          opacity: string;
-        };
+      fontSize: {
+        primary: string;
+        input: string;
+        heading: string;
+        button: string;
       };
     };
     background: {
@@ -36,28 +24,16 @@ declare module 'styled-components' {
 
 export const greenTheme: DefaultTheme = {
   text: {
-    primary: {
-      color: '#000000',
-      fontSize: '16px',
+    color: {
+      primary: '#000000',
+      secondary: '#FFFFFF',
+      link: '#00A843',
     },
-    button: {
-      color: '#FFFFFF',
-      fontSize: '14px',
-    },
-    heading: {
-      color: '#000000',
-      fontSize: '40px',
-    },
-    textField: {
-      primary: {
-        color: '#000000',
-        fontSize: '20px',
-      },
-      placeholder: {
-        color: '#000000',
-        fontSize: '16px',
-        opacity: '0.6',
-      },
+    fontSize: {
+      primary: '16px',
+      input: '20px',
+      heading: '40px',
+      button: '14px',
     },
   },
   background: {

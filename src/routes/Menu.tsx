@@ -12,7 +12,8 @@ const Icon = styled.img`
 `;
 
 const IconText = styled.div`
-  ${({ theme }) => theme.text.button};
+  color: ${({ theme }) => theme.text.color.secondary};
+  font-size: ${({ theme }) => theme.text.fontSize.primary};
   margin-top: 13px;
 `;
 

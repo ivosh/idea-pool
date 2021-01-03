@@ -10,10 +10,9 @@ interface ButtonProps {
 }
 
 const ButtonStyled = styled.button`
-  ${({ theme }) => theme.text.button};
-
   background-color: ${({ theme }) => theme.background.secondaryColor};
   border: 0;
+  color: ${({ theme }) => theme.text.color.secondary};
   height: 40px;
   text-transform: uppercase;
   width: 150px;

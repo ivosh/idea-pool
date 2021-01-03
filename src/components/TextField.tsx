@@ -12,12 +12,12 @@ interface TextFieldProps {
 }
 
 const TextFieldStyled = styled.input`
-  ${({ theme }) => theme.text.textField.primary};
-
   background: ${({ theme }) => theme.background.primaryColor};
   border: 0;
   border-bottom: 1px solid #455e70;
+  color: ${({ theme }) => theme.text.color.primary};
   display: block;
+  font-size: ${({ theme }) => theme.text.fontSize.input};
   line-height: 22px;
   padding-bottom: 12px;
   padding-top: 12px;
@@ -28,7 +28,8 @@ const TextFieldStyled = styled.input`
   }
 
   ::placeholder {
-    ${({ theme }) => theme.text.textField.placeholder};
+    font-size: ${({ theme }) => theme.text.fontSize.primary};
+    opacity: 0.6;
   }
 `;
 
