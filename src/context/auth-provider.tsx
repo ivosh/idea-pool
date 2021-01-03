@@ -3,15 +3,14 @@ import jwt from 'jsonwebtoken';
 
 import { refreshToken, userLogin, UserLoginProps, userLogout } from '../apis/accessTokens';
 import { Tokens } from '../apis/users';
-import { AccessToken, AuthTokens } from '../types';
-
-export type ITryGetValidToken = () => Promise<AuthTokens | null>;
+import { AccessToken, AuthTokens, TryGetValidToken } from '../types';
 
 interface IAuthContextShape {
+  accessToken: AccessToken | null;
   isAuthenticated: boolean;
   login: (credentials: UserLoginProps) => Promise<void>;
   logout: () => Promise<void>;
-  tryGetValidToken: ITryGetValidToken;
+  tryGetValidToken: TryGetValidToken;
 }
 
 export const AuthContext = createContext<IAuthContextShape>({} as IAuthContextShape);
@@ -23,13 +22,17 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
+  const [accessToken, setAccessToken] = useState<AccessToken | null>(null);
   const [authTokens, setAuthTokens] = useState<AuthTokens | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const decodeAccessToken = (token: string): AccessToken => jwt.decode(token) as AccessToken;
 
   useEffect(() => {
     const tokens = getTokensFromLocalStorage();
     if (tokens) {
       setAuthTokens(tokens);
+      setAccessToken(decodeAccessToken(tokens.accessToken));
     }
     setIsLoading(false);
   }, []);
@@ -41,7 +44,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
 
   const logout = async (): Promise<void> => {
     if (authTokens) {
-      await userLogout({ refresh_token: authTokens.refreshToken });
+      await userLogout({ refresh_token: authTokens.refreshToken }, tryGetValidToken);
     }
     removeTokensFromLocalStorage();
   };
@@ -83,7 +86,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
   };
 
   const setTokensInLocalStorage = (data: Tokens): void => {
-    const decoded = jwt.decode(data.jwt) as AccessToken;
+    const decoded = decodeAccessToken(data.jwt);
 
     const tokens: AuthTokens = {
       accessToken: data.jwt,
@@ -92,6 +95,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
     };
 
     localStorage.setItem('authTokens', JSON.stringify(tokens));
+    setAccessToken(decoded);
     setAuthTokens(tokens);
   };
 
@@ -116,7 +120,15 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element | null => {
   const isAuthenticated = !!(authTokens && authTokens.accessToken);
 
   const provider = (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, tryGetValidToken }}>
+    <AuthContext.Provider
+      value={{
+        accessToken,
+        isAuthenticated,
+        login,
+        logout,
+        tryGetValidToken,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { url } from '../types';
+import { TryGetValidToken, url } from '../types';
 import { Tokens } from './users';
 
 export interface RefreshTokenProps {
@@ -26,6 +26,16 @@ export interface UserLogoutProps {
   refresh_token: string;
 }
 
-export const userLogout = async (props: UserLogoutProps): Promise<void> => {
-  await axios.delete<Tokens>(`${url}/access-tokens`, { data: { ...props } });
+export const userLogout = async (
+  props: UserLogoutProps,
+  tryGetValidToken: TryGetValidToken
+): Promise<void> => {
+  const tokens = await tryGetValidToken();
+
+  await axios.delete<Tokens>(`${url}/access-tokens`, {
+    headers: {
+      'X-Access-Token': tokens?.accessToken,
+    },
+    data: { ...props },
+  });
 };

@@ -1,5 +1,7 @@
 export const url = 'https://small-project-api.herokuapp.com';
 
+export type TryGetValidToken = () => Promise<AuthTokens | null>;
+
 export interface AccessToken {
   exp: number;
   id: string;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface LinkProps {
   href: string;
   children?: ReactNode;
+  menu?: boolean;
 }
 
 const LinkStyled = styled.a`
@@ -12,7 +13,16 @@ const LinkStyled = styled.a`
   text-decoration: none;
 `;
 
+const MenuLinkStyled = styled(LinkStyled)`
+  color: ${({ theme }) => theme.text.color.primary};
+  opacity: 0.6;
+`;
+
 export default function Link(props: LinkProps): JSX.Element {
-  const { href, children } = props;
-  return <LinkStyled href={href}>{children}</LinkStyled>;
+  const { href, children, menu } = props;
+  return menu ? (
+    <MenuLinkStyled href={href}> {children} </MenuLinkStyled>
+  ) : (
+    <LinkStyled href={href}> {children} </LinkStyled>
+  );
 }
