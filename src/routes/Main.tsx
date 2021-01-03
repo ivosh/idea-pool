@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { createIdea, deleteIdea, getIdeas, Idea, updateIdea } from '../apis/ideas';
-import IdeaForm, { IdeaFormValues } from '../components/IdeaForm';
-import IdeaItem from '../components/IdeaItem';
-import { useAuth } from '../context/auth-provider';
+import Ideas from './Ideas';
 
 const MainStyled = styled.div`
   display: flex;
@@ -47,69 +44,16 @@ const Button = styled.button`
   outline: 0;
 `;
 
-const List = styled.ul`
-  margin-left: 10px;
-`;
-
-const ListItem = styled.li`
-  margin-bottom: 20px;
-`;
-
 export default function Main(): JSX.Element {
-  const [ideas, setIdeas] = useState<Idea[]>([]);
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
-  const [editedIdea, setEditedIdea] = useState<string | null>(null);
-  const { tryGetValidToken } = useAuth();
 
   const handleAdd = () => {
     setShowAddForm(true);
   };
 
-  const handleCreateIdea = async (values: IdeaFormValues) => {
-    try {
-      await createIdea(values, tryGetValidToken);
-
-      const retrievedIdeas = await getIdeas(tryGetValidToken);
-      setIdeas(retrievedIdeas);
-    } finally {
-      setShowAddForm(false);
-    }
-  };
-
-  const handleCancelCreate = () => {
+  const handleAddFormClose = () => {
     setShowAddForm(false);
   };
-
-  const handleDeleteIdea = async (id: string) => {
-    await deleteIdea(id, tryGetValidToken);
-    setIdeas((items) => items.filter((item) => item.id !== id));
-  };
-
-  const handleEditIdea = (id: string) => {
-    setEditedIdea(id);
-  };
-
-  const handleCancelEdit = () => {
-    setEditedIdea(null);
-  };
-
-  const handleUpdateIdea = async (id: string, idea: IdeaFormValues) => {
-    try {
-      const updatedIdea = await updateIdea({ id, ...idea }, tryGetValidToken);
-      setIdeas((items) => items.map((item) => (item.id === id ? updatedIdea : item)));
-    } finally {
-      setEditedIdea(null);
-    }
-  };
-
-  useEffect(() => {
-    const getIdeasFromAPI = async () => {
-      const retrievedIdeas = await getIdeas(tryGetValidToken);
-      setIdeas(retrievedIdeas);
-    };
-
-    getIdeasFromAPI();
-  }, [tryGetValidToken]);
 
   return (
     <MainStyled>
@@ -119,30 +63,7 @@ export default function Main(): JSX.Element {
           <Icon src="/btn_plus.png" />
         </Button>
       </Header>
-      <List>
-        {showAddForm && (
-          <ListItem key="new-idea">
-            <IdeaForm onCreate={handleCreateIdea} onReset={handleCancelCreate} />
-          </ListItem>
-        )}
-        {ideas.map((idea) => (
-          <ListItem key={idea.id}>
-            {editedIdea === idea.id ? (
-              <IdeaForm idea={idea} onReset={handleCancelEdit} onUpdate={handleUpdateIdea} />
-            ) : (
-              <IdeaItem
-                content={idea.content}
-                impact={idea.impact}
-                ease={idea.ease}
-                confidence={idea.confidence}
-                average_score={idea.average_score}
-                onDelete={() => handleDeleteIdea(idea.id)}
-                onEdit={() => handleEditIdea(idea.id)}
-              />
-            )}
-          </ListItem>
-        ))}
-      </List>
+      <Ideas onAddFormClose={handleAddFormClose} showAddForm={showAddForm} />
     </MainStyled>
   );
 }
